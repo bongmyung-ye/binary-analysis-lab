@@ -96,3 +96,4 @@ This lab includes small YARA rules for matching the self-built samples used in e
 
 - [YARA Rule Usage](docs/yara-usage.md)
 - [Basic Auth Check Rule](yara/basic-auth-check.yar)
+
