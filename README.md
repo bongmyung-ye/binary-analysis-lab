@@ -1,4 +1,4 @@
-# Binary Analysis Lab
+﻿# Binary Analysis Lab
 
 A practical reverse engineering and binary analysis lab using safe, self-built samples.
 
@@ -19,20 +19,20 @@ All samples are created for educational and defensive analysis purposes only. Th
 
 | Case | Topic | Status |
 |---|---|---|
-| 01 | Basic Auth Check | Draft |
-| 02 | XOR Encoded Strings | Draft |
-| 03 | PE Import Review | Draft |
+| 01 | Basic Auth Check | In Progress |
+| 02 | XOR Encoded Strings | Planned |
+| 03 | PE Import Review | Planned |
 
 ## Repository structure
 
 ```txt
 binary-analysis-lab/
-├─ docs/                 # workflow, tools, and safety notes
-├─ reports/              # analysis reports and templates
-├─ samples/              # self-built sample source code
-├─ scripts/              # small analysis helpers
-├─ screenshots/          # Ghidra / x64dbg screenshots
-└─ yara/                 # detection rules for the lab samples
+?쒋? docs/                 # workflow, tools, and safety notes
+?쒋? reports/              # analysis reports and templates
+?쒋? samples/              # self-built sample source code
+?쒋? scripts/              # small analysis helpers
+?쒋? screenshots/          # Ghidra / x64dbg screenshots
+?붴? yara/                 # detection rules for the lab samples
 ```
 
 ## Quick start
@@ -40,7 +40,7 @@ binary-analysis-lab/
 Clone the repository and inspect the sample source code.
 
 ```bash
-git clone https://github.com/your-name/binary-analysis-lab.git
+git clone https://github.com/bongmyung-ye/binary-analysis-lab.git
 cd binary-analysis-lab
 ```
 
