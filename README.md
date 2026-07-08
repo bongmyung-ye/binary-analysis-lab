@@ -27,12 +27,12 @@ All samples are created for educational and defensive analysis purposes only. Th
 
 ```txt
 binary-analysis-lab/
-?쒋? docs/                 # workflow, tools, and safety notes
-?쒋? reports/              # analysis reports and templates
-?쒋? samples/              # self-built sample source code
-?쒋? scripts/              # small analysis helpers
-?쒋? screenshots/          # Ghidra / x64dbg screenshots
-?붴? yara/                 # detection rules for the lab samples
+|- docs/                 # workflow, tools, and safety notes
+|- reports/              # analysis reports and templates
+|- samples/              # self-built sample source code
+|- scripts/              # small analysis helpers
+|- screenshots/          # Ghidra / x64dbg screenshots
+|- yara/                 # detection rules for the lab samples
 ```
 
 ## Quick start
@@ -89,3 +89,10 @@ See [`docs/safety-policy.md`](docs/safety-policy.md) for the full policy.
 ## License
 
 MIT
+
+## YARA Rules
+
+This lab includes small YARA rules for matching the self-built samples used in each case study.
+
+- [YARA Rule Usage](docs/yara-usage.md)
+- [Basic Auth Check Rule](yara/basic-auth-check.yar)
