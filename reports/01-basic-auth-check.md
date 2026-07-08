@@ -129,8 +129,39 @@ This sample demonstrates a basic static and behavioral analysis workflow:
 
 The sample does not implement destructive behavior, persistence, network communication, credential theft, evasion, or third-party software bypassing. It is intentionally limited to a safe self-built binary for analysis practice.
 
+
+## YARA Rule
+
+A small YARA rule was added to identify this self-built sample by its unique strings and PE header.
+
+Rule path:
+
+    yara/basic-auth-check.yar
+
+The rule checks for the Windows PE MZ header and a combination of sample-specific strings, including the title, prompt, passphrase, success message, failure message, and helper function name.
+
+Key matching strings:
+
+    Binary Analysis Lab - Basic Auth Check
+    Enter passphrase:
+    lab-pass-2026
+    Access granted for lab sample.
+    Access denied for lab sample.
+    verify_passphrase
+
+Expected local usage:
+
+    yara yara/basic-auth-check.yar samples/01-basic-auth-check/bin/basic-auth-check.exe
+
+Expected match:
+
+    Basic_Auth_Check_SelfBuilt_Lab samples/01-basic-auth-check/bin/basic-auth-check.exe
+
+This rule is limited to the safe lab sample and is not intended to detect real malware or third-party software.
+
 ## Next Steps
 
 - Capture a Ghidra screenshot showing the verify_passphrase routine.
 - Capture an x64dbg screenshot showing the branch after the string comparison.
 - Add a small YARA rule that matches this self-built sample by its unique strings.
+
