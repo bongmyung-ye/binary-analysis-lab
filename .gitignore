@@ -1,0 +1,29 @@
+# Build outputs
+**/bin/*
+!**/bin/.gitkeep
+*.exe
+*.dll
+*.obj
+*.o
+*.pdb
+*.ilk
+*.dSYM/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Analysis exports
+*.ghidra
+*.idb
+*.i64
+*.log
+*.tmp
