@@ -21,7 +21,7 @@ All samples are created for educational and defensive analysis purposes only. Th
 |---|---|---|
 | 01 | [Basic Auth Check](reports/01-basic-auth-check.md) | Completed |
 | 02 | XOR Encoded Strings | Planned |
-| 03 | PE Import Review | Planned |
+| 03 | [PE Import Review](reports/03-pe-import-review.md) | Completed |
 
 ## Repository structure
 
