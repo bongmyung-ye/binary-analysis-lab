@@ -1,66 +1,136 @@
-# Case Study 01 - Basic Auth Check
+﻿# Case Study 01 - Basic Auth Check
 
-## Summary
+## Overview
 
-This case study analyzes a small self-built console program that asks for a passphrase and prints either a success or failure message.
+This case study analyzes a small self-built Windows console binary that validates a user-provided passphrase and prints a success or failure message.
 
-The purpose of this sample is to document a basic static and dynamic analysis workflow without modifying third-party software.
+The goal of this sample is to document a basic binary analysis workflow using a safe program created only for defensive learning and analysis practice.
 
-## Sample information
+## Sample Information
 
 | Field | Value |
-|---|---|
-| File name | basic-auth-check.exe |
-| File type | Windows PE executable |
-| Architecture | To be confirmed after build |
-| Size | To be recorded |
-| MD5 | To be recorded |
-| SHA1 | To be recorded |
-| SHA256 | To be recorded |
-| Build date | To be recorded |
-| Analysis date | To be recorded |
+| --- | --- |
+| Sample | basic-auth-check.exe |
+| Path | samples/01-basic-auth-check/bin/basic-auth-check.exe |
+| SHA-256 | edf54c2da41feb107a001a5b98e147de89cee9e05a973ce18ca486b38710a860 |
+| Size | 135,594 bytes |
+| Format | PE32+ |
+| Architecture | x64 |
+| Sections | 19 |
+| Entry Point RVA | 0x00001460 |
+| Image Base | 0x140000000 |
+| Build Toolchain | MSYS2 MinGW-w64 GCC |
 
-## Analysis goals
+## Runtime Behavior
 
-- Locate the user input handling logic
-- Identify the string comparison function
-- Observe the success and failure branches
-- Confirm runtime behavior with a debugger
+The program displays a title, asks the user for a passphrase, and then prints one of two messages depending on the input.
 
-## Static analysis notes
+### Failed input
 
-### Strings
+    Binary Analysis Lab - Basic Auth Check
+    Enter passphrase: test
+    Access denied for lab sample.
 
-Expected strings include:
+### Valid input
 
-- `Binary Analysis Lab - Basic Auth Check`
-- `Enter passphrase:`
-- `Access granted for lab sample.`
-- `Access denied for lab sample.`
-- `lab-pass-2026`
+    Binary Analysis Lab - Basic Auth Check
+    Enter passphrase: lab-pass-2026
+    Access granted for lab sample.
 
-These strings provide useful anchors for locating the main control flow in a disassembler.
+## Static Analysis Notes
 
-### Imports
+The source and extracted strings show a simple authentication-style control flow.
 
-Expected imports depend on the compiler and runtime, but the sample should include standard C runtime functions related to console input, output, and string comparison.
+    input -> newline cleanup -> passphrase comparison -> success/failure branch
 
-### Function flow
+The binary contains the expected passphrase as a readable string.
 
-The source contains a small helper named `verify_passphrase`. In a stripped binary, the function name may not be preserved, but the comparison behavior can still be identified through string references and call flow.
+    lab-pass-2026
 
-## Dynamic analysis notes
+Relevant user-facing strings include:
 
-Suggested observations:
+    Binary Analysis Lab - Basic Auth Check
+    Enter passphrase:
+    Access granted for lab sample.
+    Access denied for lab sample.
 
-- Run the program with an incorrect input and confirm the failure branch.
-- Run the program with the expected passphrase and confirm the success branch.
-- Set a breakpoint near the comparison call to observe both branch outcomes.
+The main comparison logic is implemented through a small helper routine named verify_passphrase.
 
-## YARA notes
+At source level, the function compares the user input against the expected passphrase using strcmp.
 
-A simple rule can identify this lab sample using stable strings and the PE magic header. The rule should not be treated as a generic detection rule.
+    static int verify_passphrase(const char *input) {
+        const char *expected = "lab-pass-2026";
+        return strcmp(input, expected) == 0;
+    }
 
-## Conclusion
+## String and Function Observations
 
-This sample is useful for practicing entry-level binary triage, string reference review, and branch-flow documentation in a controlled environment.
+| Category | Observed value |
+| --- | --- |
+| Passphrase | lab-pass-2026 |
+| Success message | Access granted for lab sample. |
+| Failure message | Access denied for lab sample. |
+| Input function | fgets |
+| Newline cleanup | strcspn |
+| Comparison function | strcmp |
+| Helper routine | verify_passphrase |
+
+The output also contains many MinGW and UCRT runtime symbols. These are expected for a Windows console binary built with MSYS2 MinGW-w64 GCC and are not part of the sample-specific authentication logic.
+
+## PE Summary
+
+The sample is a 64-bit Windows PE file.
+
+| Field | Value |
+| --- | --- |
+| Format | PE32+ |
+| Machine | x64 |
+| Sections | 19 |
+| Entry Point RVA | 0x00001460 |
+| Image Base | 0x140000000 |
+
+Observed sections include:
+
+    .text
+    .data
+    .rdata
+    .pdata
+    .xdata
+    .bss
+    .idata
+    .tls
+    .rsrc
+    .reloc
+
+Imported DLLs include:
+
+    KERNEL32.dll
+    api-ms-win-crt-environment-l1-1-0.dll
+    api-ms-win-crt-heap-l1-1-0.dll
+    api-ms-win-crt-locale-l1-1-0.dll
+    api-ms-win-crt-math-l1-1-0.dll
+    api-ms-win-crt-private-l1-1-0.dll
+    api-ms-win-crt-runtime-l1-1-0.dll
+    api-ms-win-crt-stdio-l1-1-0.dll
+    api-ms-win-crt-string-l1-1-0.dll
+
+These imports are consistent with a small C console program using standard input, output, and string comparison routines.
+
+## Analysis Summary
+
+This sample demonstrates a basic static and behavioral analysis workflow:
+
+1. Identify user-facing strings.
+2. Locate the expected passphrase.
+3. Review the input handling path.
+4. Identify the comparison routine.
+5. Confirm success and failure branches through runtime testing.
+6. Review PE metadata and imported runtime libraries.
+
+The sample does not implement destructive behavior, persistence, network communication, credential theft, evasion, or third-party software bypassing. It is intentionally limited to a safe self-built binary for analysis practice.
+
+## Next Steps
+
+- Capture a Ghidra screenshot showing the verify_passphrase routine.
+- Capture an x64dbg screenshot showing the branch after the string comparison.
+- Add a small YARA rule that matches this self-built sample by its unique strings.

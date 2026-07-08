@@ -19,7 +19,7 @@ All samples are created for educational and defensive analysis purposes only. Th
 
 | Case | Topic | Status |
 |---|---|---|
-| 01 | Basic Auth Check | In Progress |
+| 01 | Basic Auth Check | Completed |
 | 02 | XOR Encoded Strings | Planned |
 | 03 | PE Import Review | Planned |
 
